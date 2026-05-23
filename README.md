@@ -12,10 +12,9 @@ Telegram bot for CapCut VPN group. Sends VPN download link via `/vpn` command.
 ## Local Setup
 
 1. Clone the repo
-2. Create virtual environment and install dependencies:
+2. Install dependencies:
    ```bash
-   uv venv --python 3.12
-   uv pip install -r requirements.txt
+   uv sync
    ```
 3. Copy env template:
    ```bash
@@ -24,7 +23,7 @@ Telegram bot for CapCut VPN group. Sends VPN download link via `/vpn` command.
 4. Edit `.env` — add your `BOT_TOKEN` and `VPN_LINK`
 5. Run:
    ```bash
-   python bot.py
+   uv run python bot.py
    ```
 
 ## Getting a Bot Token
@@ -66,5 +65,5 @@ Telegram bot for CapCut VPN group. Sends VPN download link via `/vpn` command.
 ## Tests
 
 ```bash
-python -m pytest -v
+uv run pytest -v
 ```

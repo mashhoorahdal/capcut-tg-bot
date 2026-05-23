@@ -1,1 +1,1 @@
-worker: python bot.py
+worker: uv run python bot.py
