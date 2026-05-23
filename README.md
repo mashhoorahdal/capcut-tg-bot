@@ -1,14 +1,30 @@
 # CapCut TG Bot
 
-Telegram bot for CapCut VPN group. Provides VPN download link and latest CapCut version download.
+Telegram bot for CapCut VPN group. Provides VPN download link, latest CapCut version download, and keyword-triggered greetings.
 
 ## Commands
 
 | Command | Description |
 |---------|-------------|
-| `/start` | Welcome message |
+| `/start` | Welcome message with command list |
 | `/vpn` | Get VPN download link |
 | `/latest` | Get latest CapCut version download link |
+
+## Smart Greetings
+
+Bot listens for keywords in group messages and replies with available commands. Default keywords: `vpn`, `capcut`, `help`, `link`, `download`, `latest`.
+
+Edit `KEYWORDS` in `handlers/greet.py` to customize.
+
+## Environment Variables
+
+| Variable | Required | Description |
+|----------|----------|-------------|
+| `BOT_TOKEN` | Yes | Telegram bot token from @BotFather |
+| `VPN_LINK` | Yes | VPN download URL |
+| `CAPCUT_LATEST_LINK` | Yes | CapCut APK/download URL |
+| `WEBHOOK_SECRET` | Yes | Random string for webhook verification (`A-Za-z0-9_-` only) |
+| `WEBHOOK_URL` | Yes | Your Vercel deployment URL (e.g. `https://your-project.vercel.app`) |
 
 ## Local Setup
 
@@ -21,10 +37,31 @@ Telegram bot for CapCut VPN group. Provides VPN download link and latest CapCut 
    ```bash
    cp .env.example .env
    ```
-4. Edit `.env` — add your `BOT_TOKEN` and `VPN_LINK`
-5. Run:
+4. Fill in `.env`
+5. Run in polling mode:
    ```bash
    uv run python bot.py
+   ```
+
+## Deploy to Vercel
+
+1. Push repo to GitHub
+2. Import project at [vercel.com](https://vercel.com)
+3. Add all environment variables in Vercel dashboard
+4. After deploy, register the webhook once:
+   ```
+   GET https://your-project.vercel.app/setup
+   ```
+
+### Bot Setup (one-time)
+
+1. Open `@BotFather` → your bot → **Bot Settings → Group Privacy → Turn Off**
+   (required for the bot to read group messages)
+2. Register commands via `@BotFather` → `/setcommands`:
+   ```
+   start - Welcome message
+   vpn - Get VPN download link
+   latest - Get latest CapCut version
    ```
 
 ## Getting a Bot Token
@@ -33,19 +70,9 @@ Telegram bot for CapCut VPN group. Provides VPN download link and latest CapCut 
 2. Send `/newbot` and follow prompts
 3. Copy the token into `.env` as `BOT_TOKEN`
 
-## Deploy to Railway (Free)
-
-1. Push this repo to GitHub
-2. Go to [railway.app](https://railway.app) → New Project → Deploy from GitHub
-3. Select your repo
-4. Add environment variables in Railway dashboard:
-   - `BOT_TOKEN` — your Telegram bot token
-   - `VPN_LINK` — your VPN download link
-5. Railway auto-deploys. Bot runs 24/7.
-
 ## Adding New Commands
 
-1. Create `handlers/<command>.py` with an async handler function:
+1. Create `handlers/<command>.py`:
    ```python
    import logging
    from telegram import Update
@@ -56,7 +83,7 @@ Telegram bot for CapCut VPN group. Provides VPN download link and latest CapCut 
    async def mycommand_command(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
        await update.message.reply_text("Your response here")
    ```
-2. Register it in `bot.py`:
+2. Register in `bot.py` and `api/index.py`:
    ```python
    from handlers.mycommand import mycommand_command
    app.add_handler(CommandHandler("mycommand", mycommand_command))

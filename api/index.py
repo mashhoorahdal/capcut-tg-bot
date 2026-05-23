@@ -9,8 +9,9 @@ sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 
 import config
 from telegram import Bot, Update
-from telegram.ext import Application, CommandHandler
+from telegram.ext import Application, CommandHandler, MessageHandler, filters
 
+from handlers.greet import greet_on_keyword
 from handlers.latest import latest_command
 from handlers.start import start_command
 from handlers.vpn import vpn_command
@@ -27,6 +28,7 @@ async def _process_update(update_data: dict) -> None:
     app.add_handler(CommandHandler("start", start_command))
     app.add_handler(CommandHandler("vpn", vpn_command))
     app.add_handler(CommandHandler("latest", latest_command))
+    app.add_handler(MessageHandler(filters.TEXT & ~filters.COMMAND, greet_on_keyword))
     async with app:
         await app.process_update(Update.de_json(update_data, app.bot))
 
