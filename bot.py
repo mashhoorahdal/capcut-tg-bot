@@ -1,5 +1,5 @@
 import logging
-import config  # validates env vars at import — fail fast before doing anything
+import config
 from telegram.ext import Application, CommandHandler
 from handlers.start import start_command
 from handlers.vpn import vpn_command
@@ -13,6 +13,7 @@ logger = logging.getLogger(__name__)
 
 
 def main() -> None:
+    config.validate()
     logger.info("Starting CapCut VPN Bot...")
 
     app = Application.builder().token(config.BOT_TOKEN).build()

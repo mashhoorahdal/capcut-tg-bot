@@ -46,8 +46,10 @@ class handler(BaseHTTPRequestHandler):
             self.end_headers()
             return
 
+        config.validate()
+
         secret = self.headers.get("X-Telegram-Bot-Api-Secret-Token", "")
-        if secret != config.WEBHOOK_SECRET:
+        if not config.WEBHOOK_SECRET or secret != config.WEBHOOK_SECRET:
             self.send_response(403)
             self.end_headers()
             return
@@ -67,6 +69,7 @@ class handler(BaseHTTPRequestHandler):
         path = self.path.split("?")[0].rstrip("/")
         if path == "/setup":
             try:
+                config.validate()
                 webhook_url = asyncio.run(_register_webhook())
                 self.send_response(200)
                 self.end_headers()
