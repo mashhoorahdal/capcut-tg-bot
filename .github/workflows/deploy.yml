@@ -14,10 +14,8 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
-      - name: Install Railway CLI
-        run: npm install -g @railway/cli
-
-      - name: Deploy to Railway
-        run: railway up --detach
-        env:
-          RAILWAY_TOKEN: ${{ secrets.RAILWAY_TOKEN }}
+      - uses: koyeb/action-koyeb@v1
+        with:
+          api_token: ${{ secrets.KOYEB_TOKEN }}
+          app: capcut-tg-bot
+          service: capcut-tg-bot
