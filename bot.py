@@ -3,6 +3,7 @@ import config  # validates env vars at import — fail fast before doing anythin
 from telegram.ext import Application, CommandHandler
 from handlers.start import start_command
 from handlers.vpn import vpn_command
+from handlers.latest import latest_command
 
 logging.basicConfig(
     format="%(asctime)s | %(levelname)s | %(name)s | %(message)s",
@@ -18,6 +19,7 @@ def main() -> None:
 
     app.add_handler(CommandHandler("start", start_command))
     app.add_handler(CommandHandler("vpn", vpn_command))
+    app.add_handler(CommandHandler("latest", latest_command))
 
     logger.info("Handlers registered. Polling for updates...")
     app.run_polling(allowed_updates=["message"])

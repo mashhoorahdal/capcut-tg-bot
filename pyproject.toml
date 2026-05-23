@@ -1,5 +1,5 @@
 [project]
-name = "capcut-vpn-bot"
+name = "capcut-tg-bot"
 version = "1.0.0"
 requires-python = ">=3.12"
 dependencies = [

@@ -16,7 +16,7 @@ wheels = [
 ]
 
 [[package]]
-name = "capcut-vpn-bot"
+name = "capcut-tg-bot"
 version = "1.0.0"
 source = { virtual = "." }
 dependencies = [

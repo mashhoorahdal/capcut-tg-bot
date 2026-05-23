@@ -1,6 +1,6 @@
-# CapCut VPN Bot
+# CapCut TG Bot
 
-Telegram bot for CapCut VPN group. Sends VPN download link via `/vpn` command.
+Telegram bot for CapCut VPN group. Provides VPN download link and latest CapCut version download.
 
 ## Commands
 
@@ -8,6 +8,7 @@ Telegram bot for CapCut VPN group. Sends VPN download link via `/vpn` command.
 |---------|-------------|
 | `/start` | Welcome message |
 | `/vpn` | Get VPN download link |
+| `/latest` | Get latest CapCut version download link |
 
 ## Local Setup
 

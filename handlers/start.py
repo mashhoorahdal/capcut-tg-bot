@@ -17,9 +17,10 @@ async def start_command(update: Update, context: ContextTypes.DEFAULT_TYPE) -> N
     )
 
     text = (
-        f"👋 Hi {name}! Welcome to *CapCut VPN Bot*.\n\n"
-        "I help you get a VPN so CapCut works without restrictions.\n\n"
-        "Use /vpn to get the download link."
+        f"👋 Hi {name}! Welcome to *CapCut TG Bot*.\n\n"
+        "I can help you with:\n"
+        "• /vpn — Get VPN download link\n"
+        "• /latest — Get latest CapCut version"
     )
 
     await update.message.reply_text(text, parse_mode="Markdown")
