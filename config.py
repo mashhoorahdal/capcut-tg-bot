@@ -5,6 +5,7 @@ load_dotenv()
 
 BOT_TOKEN: str = os.getenv("BOT_TOKEN", "")
 VPN_LINK: str = os.getenv("VPN_LINK", "")
+VPN_BACKUP_LINK: str = os.getenv("VPN_BACKUP_LINK", "")
 CAPCUT_LATEST_LINK: str = os.getenv("CAPCUT_LATEST_LINK", "")
 WEBHOOK_SECRET: str = os.getenv("WEBHOOK_SECRET", "")
 WEBHOOK_URL: str = os.getenv("WEBHOOK_URL", "")

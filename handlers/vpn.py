@@ -15,11 +15,18 @@ async def vpn_command(update: Update, context: ContextTypes.DEFAULT_TYPE) -> Non
         update.effective_chat.type,
     )
 
+    backup_line = (
+        f"🔗 [Backup link]({config.VPN_BACKUP_LINK})\n\n"
+        if config.VPN_BACKUP_LINK
+        else "\n"
+    )
     text = (
-        "🔐 *CapCut VPN*\n\n"
-        "Get your VPN to use CapCut without restrictions:\n\n"
-        f"👉 [Download VPN]({config.VPN_LINK})\n\n"
-        "_Having issues? Contact admin._"
+        "🔐 *Free VPN*\n\n"
+        "100% free — no ads, no speed limits, unlimited bandwidth.\n"
+        "Access 50+ regions with stable connection.\n\n"
+        f"👉 [Download here]({config.VPN_LINK})\n"
+        f"{backup_line}"
+        "_Chrome recommended for best experience._"
     )
 
     await update.message.reply_text(text, parse_mode="Markdown")
