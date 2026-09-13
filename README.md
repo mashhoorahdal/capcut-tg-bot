@@ -41,8 +41,11 @@ Telegram bot for the CapCut group. One command: `/capcut` forwards the CapCut fi
 3. Add all environment variables in Vercel dashboard
 4. After deploy, register the webhook once:
    ```
-   GET https://your-project.vercel.app/setup
+   curl "https://your-project.vercel.app/?setup=1"
    ```
+   The marker goes in the query string, not the path: `vercel.json` rewrites
+   every request to `/api/index`, so the function never sees the original
+   path. Query strings survive the rewrite.
 
 ### Bot Setup (one-time)
 
