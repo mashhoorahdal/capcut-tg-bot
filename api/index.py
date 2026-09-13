@@ -9,12 +9,9 @@ sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 
 import config
 from telegram import Bot, Update
-from telegram.ext import Application, CommandHandler, MessageHandler, filters
+from telegram.ext import Application, CommandHandler
 
-from handlers.greet import greet_on_keyword
-from handlers.latest import latest_command
-from handlers.start import start_command
-from handlers.vpn import vpn_command
+from handlers.capcut import capcut_command
 
 logging.basicConfig(
     format="%(asctime)s | %(levelname)s | %(name)s | %(message)s",
@@ -25,10 +22,7 @@ logger = logging.getLogger(__name__)
 
 async def _process_update(update_data: dict) -> None:
     app = Application.builder().token(config.BOT_TOKEN).build()
-    app.add_handler(CommandHandler("start", start_command))
-    app.add_handler(CommandHandler("vpn", vpn_command))
-    app.add_handler(CommandHandler("latest", latest_command))
-    app.add_handler(MessageHandler(filters.TEXT & ~filters.COMMAND, greet_on_keyword))
+    app.add_handler(CommandHandler("capcut", capcut_command))
     async with app:
         await app.process_update(Update.de_json(update_data, app.bot))
 

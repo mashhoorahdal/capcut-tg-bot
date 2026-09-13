@@ -1,28 +1,19 @@
 # CapCut TG Bot
 
-Telegram bot for CapCut VPN group. Provides VPN download link, latest CapCut version download, and keyword-triggered greetings.
+Telegram bot for the CapCut group. One command: `/capcut` forwards the CapCut file.
 
 ## Commands
 
 | Command | Description |
 |---------|-------------|
-| `/start` | Welcome message with command list |
-| `/vpn` | Get VPN download link |
-| `/latest` | Get latest CapCut version download link |
-
-## Smart Greetings
-
-Bot listens for keywords in group messages and replies with available commands. Default keywords: `vpn`, `capcut`, `help`, `link`, `download`, `latest`.
-
-Edit `KEYWORDS` in `handlers/greet.py` to customize.
+| `/capcut` | Sends the CapCut file |
 
 ## Environment Variables
 
 | Variable | Required | Description |
 |----------|----------|-------------|
 | `BOT_TOKEN` | Yes | Telegram bot token from @BotFather |
-| `VPN_LINK` | Yes | VPN download URL |
-| `CAPCUT_LATEST_LINK` | Yes | CapCut APK/download URL |
+| `CAPCUT_FILE_ID` | Yes | Telegram `file_id` of the CapCut file (see below) |
 | `WEBHOOK_SECRET` | Yes | Random string for webhook verification (`A-Za-z0-9_-` only) |
 | `WEBHOOK_URL` | Yes | Your Vercel deployment URL (e.g. `https://your-project.vercel.app`) |
 
@@ -55,14 +46,25 @@ Edit `KEYWORDS` in `handlers/greet.py` to customize.
 
 ### Bot Setup (one-time)
 
-1. Open `@BotFather` → your bot → **Bot Settings → Group Privacy → Turn Off**
-   (required for the bot to read group messages)
-2. Register commands via `@BotFather` → `/setcommands`:
+Register the command via `@BotFather` → `/setcommands`:
+
+```
+capcut - Get the CapCut file
+```
+
+## Getting the File ID
+
+Telegram caches uploaded files, so the bot re-sends by `file_id` instead of
+re-uploading each time.
+
+1. Send the CapCut file to your bot in a private chat
+2. Fetch the update:
+   ```bash
+   curl "https://api.telegram.org/bot<BOT_TOKEN>/getUpdates"
    ```
-   start - Welcome message
-   vpn - Get VPN download link
-   latest - Get latest CapCut version
-   ```
+3. Copy `result[].message.document.file_id` into `.env` as `CAPCUT_FILE_ID`
+
+Replacing the file later means repeating these steps with the new file.
 
 ## Getting a Bot Token
 
