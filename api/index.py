@@ -1,4 +1,5 @@
 import asyncio
+import hmac
 import json
 import logging
 import os
@@ -36,16 +37,12 @@ async def _register_webhook() -> str:
 
 class handler(BaseHTTPRequestHandler):
     def do_POST(self):
-        path = self.path.split("?")[0].rstrip("/")
-        if path not in ("/webhook",):
-            self.send_response(404)
-            self.end_headers()
-            return
-
+        # The secret token header is the real authentication; matching on path
+        # is unreliable because Vercel rewrites rewrite what self.path holds.
         config.validate()
 
         secret = self.headers.get("X-Telegram-Bot-Api-Secret-Token", "")
-        if not config.WEBHOOK_SECRET or secret != config.WEBHOOK_SECRET:
+        if not config.WEBHOOK_SECRET or not hmac.compare_digest(secret, config.WEBHOOK_SECRET):
             self.send_response(403)
             self.end_headers()
             return
@@ -62,8 +59,7 @@ class handler(BaseHTTPRequestHandler):
             self.end_headers()
 
     def do_GET(self):
-        path = self.path.split("?")[0].rstrip("/")
-        if path == "/setup":
+        if "setup" in self.path:
             try:
                 config.validate()
                 webhook_url = asyncio.run(_register_webhook())
@@ -77,7 +73,7 @@ class handler(BaseHTTPRequestHandler):
         else:
             self.send_response(200)
             self.end_headers()
-            self.wfile.write(b"CapCut TG Bot is running!")
+            self.wfile.write(f"CapCut TG Bot is running! path={self.path}".encode())
 
     def log_message(self, *args):
         pass
