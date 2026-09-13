@@ -8,6 +8,18 @@ Telegram bot for the CapCut group. One command: `/capcut` forwards the CapCut fi
 |---------|-------------|
 | `/capcut` | Sends the CapCut file |
 
+## Auto-reply
+
+Any text message that isn't a command gets a reply pointing at `/capcut`.
+Edit `REPLY` in `handlers/greet.py` to change the wording.
+
+This requires **Group Privacy off** in @BotFather (Bot Settings → Group
+Privacy → Turn off), otherwise the bot only sees commands in groups.
+
+Note: this replies to *every* message in every chat the bot is in. In a busy
+group that is a lot of noise. Narrow it by adding a keyword check or a
+`chat.type` check in `greet_on_message` if it becomes a problem.
+
 ## Environment Variables
 
 | Variable | Required | Description |
